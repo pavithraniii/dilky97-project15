@@ -1,3 +1,4 @@
+
 // Node Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -7,13 +8,20 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 // Components
 import { AppComponent } from './app.component';
 
+// Services
+import { EventDetailsService } from './services/event-details.service';
+
 // Others
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
+import { HomeComponent } from './components/home/home.component';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +29,7 @@ import { environment } from 'src/environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
   ],
-  providers: [],
+  providers: [EventDetailsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
