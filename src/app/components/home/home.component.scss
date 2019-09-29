@@ -1,0 +1,13 @@
+
+.card {
+  width: 270px ;
+  box-shadow: 1px 1px 10px black;
+  border-radius: 10px;
+  margin: 2%;
+  display: inline-block;
+}
+
+.card:hover {
+  box-shadow: 2px 2px 20px black;
+  transition: .2s;
+}
