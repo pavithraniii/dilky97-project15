@@ -1,0 +1,120 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  border-radius: 10px;
+}
+
+.card-image img {
+  box-shadow: 1px 1px 10px grey;
+  height: 180px ;
+  width: 100%;
+  border-top-right-radius: 10px;
+  border-top-left-radius:  10px;
+}
+
+.card-title {
+  margin-bottom: 0px ;
+  padding: 5px;
+}
+
+.card-title h1 {
+  font-weight: 100;
+  font-family: title;
+  font-size: 25px;
+  text-align: center;
+  padding: 0px;
+  padding-bottom: 0px;
+  margin-bottom: 0px ;
+  color: green ;
+}
+
+.card-des {
+  padding: 3px;
+  text-align: center;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.date-up {
+  font-size: 13px;
+  margin: 8px ;
+  font-weight: bold;
+}
+
+.date-down {
+  font-size: 10px;
+  margin-bottom: 3px ;
+  margin-top: 0px ;
+  font-weight: bold;
+}
+
+.card-time-cell {
+  font-size: 13px;
+  width: 15%;
+  display: inline-block;
+  box-shadow: 1px 1px 10px green;
+  border-radius: 5px;
+  font-family: arial;
+  padding-top: 5px ;
+  margin: 3px;
+  margin-bottom: 5px ;
+}
+
+.card-time-cell-box {
+  width: 100%;
+  display: inline-block;
+  box-shadow: 1px 1px 10px grey;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif ;
+  font-weight: bold;
+  padding-top: 5px ;
+  padding-bottom: 5px ;
+}
+
+.card-time-cell-box p {
+  font-size: 16px;
+  color: rgba(28, 87, 26, 0.966) ;
+  font-family: digital ;
+}
+
+.card-done-cell {
+  font-size: 13px;
+  color : rgb(255, 72, 0);
+  text-shadow: 1px 1px #ff000044;
+  font-weight: 600;
+  width: 40%;
+  display: inline-block;
+  box-shadow: 1px 1px 3px red;
+  border-radius: 5px;
+  font-family: arial;
+  padding-top: 5px ;
+  margin: 3px;
+  margin-bottom: 5px ;
+}
+
+.card-done-cell-box {
+  font-weight: 600;
+  width: 100%;
+  font-size: 16px;
+  display: inline-block;
+  border-radius: 5px;
+  font-family: arial;
+  padding-top: 5px ;
+  padding-bottom: 5px ;
+}
+
+.card-button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding: 8px;
+}
+
+.card-button:hover {
+  background-color: black;
+  color: white;
+  transition: .5s;
+  cursor: pointer;
+}
