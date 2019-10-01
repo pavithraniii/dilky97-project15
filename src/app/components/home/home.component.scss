@@ -1,6 +1,6 @@
 
 .card {
-  width: 270px ;
+  width: 300px ;
   box-shadow: 1px 1px 10px black;
   border-radius: 10px;
   margin: 2%;
@@ -10,4 +10,13 @@
 .card:hover {
   box-shadow: 2px 2px 20px black;
   transition: .2s;
+}
+
+.card-area {
+  text-align: center;
+}
+
+.card-area .container {
+  padding: 1px;
+  max-width: 80%;
 }
