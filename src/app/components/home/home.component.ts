@@ -10,20 +10,75 @@ import { Component, OnInit } from '@angular/core';
 
 export class HomeComponent implements OnInit {
 
-  eventList: EventDetails[];
+  allEventList: EventDetails[];
+  showingEventList: EventDetails[];
 
-  constructor( private eventDetails: EventDetailsService ) { }
+  clubs = [] ;
+
+  selectedClub = 'all' ;       // initially selected club is All
+  selectedStatus = 0 ;         // ----- ( 1 = done/ended ) , ( 0 = undone/new ) , ( 99 = all ) ---- // , initially selected club is new
+  selectedStatusWord = 'New' ; // for button display word
+
+  test = 'initial' ;
+
+
+  constructor( private eventDetails: EventDetailsService ) {
+
+    this.setViewList();
+
+   }  // injecting event details service for component
+
+  setStatus( input: number ) {     // set the chosen event of status
+    this.selectedStatus = input ;
+    if (input === 0) { this.selectedStatusWord = 'New'; }    ////////////////////////////////////////////////////////////
+    if (input === 1) { this.selectedStatusWord = 'Ended'; }  // set the chosen event status as a string for displaying //
+    if (input === 99) { this.selectedStatusWord = 'All'; }   ////////////////////////////////////////////////////////////
+    this.setViewList();
+  }
+
+  setClub( input: string ) {
+    this.selectedClub = input ;  // set the chosen club of dropdown
+    this.setViewList();
+  }
+
+  setViewList() {
+
+    this.eventDetails.getShowingEvents( this.selectedStatus, this.selectedClub ).subscribe( actionArray => {
+
+      this.showingEventList = actionArray.map( item => {    //////////////////////////////////////////////////////
+        return {                                            //                                                  //
+          id: item.payload.doc.id,                          //     set the showing events list according to     //
+          ...item.payload.doc.data()                        //             selected status ans club             //
+        } as EventDetails ;                                 //                                                  //
+      });                                                   //////////////////////////////////////////////////////
+    });
+
+  }
 
   ngOnInit() {
 
-    this.eventDetails.getEvents().subscribe(actionArray => {
-      this.eventList = actionArray.map(item => {
-        return {
-          id: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as EventDetails ;
-      });
+////////// getting all event details - start //////////
+
+    this.eventDetails.getAllEvents().subscribe( actionArray => {
+
+      this.allEventList = actionArray.map( item => {    ////////////////////////////////////////////////
+        return {                                        //                                            //
+          id: item.payload.doc.id,                      //         set the all events list to         //
+          ...item.payload.doc.data()                    //   find all clubs that has created events   //
+        } as EventDetails ;                             //                                            //
+      });                                               ////////////////////////////////////////////////
+
+      for ( const item  of this.allEventList ) {        ////////////////////////////////////////////////
+        if ( !( this.clubs.includes(item.club) ) ) {    //        pushing clubs to clubs array        //
+          this.clubs.push(item.club);                   ////////////////////////////////////////////////
+        }
+      }
+
+      this.clubs = this.clubs.sort();   // sorting clubs array by to name
+
     });
+
+////////// getting all event details - end //////////
 
   }
 
