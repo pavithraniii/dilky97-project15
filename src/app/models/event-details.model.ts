@@ -5,4 +5,5 @@ export class EventDetails {
   des: string;
   img: string;
   date: string;
+  status: number;
 }
