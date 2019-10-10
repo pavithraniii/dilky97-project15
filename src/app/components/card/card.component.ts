@@ -1,3 +1,4 @@
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Component, OnInit , Input } from '@angular/core';
 
 @Component({
@@ -8,72 +9,50 @@ import { Component, OnInit , Input } from '@angular/core';
 
 export class CardComponent implements OnInit {
 
-  constructor() {  }
+  constructor( private firestore: AngularFirestore ) { // Injecting Angular Firestore
 
-  eventDate: Date ;
-  today: Date ;
+    this.timeLoop = setInterval( () => {
+                      this.calculateTime();   // calculate remaining time every secound
+                    }, 1000 );
 
-  tempToday = Date.now() ;
+  }
 
-  eventDateTemp_1: unknown ;
-  eventDateTemp_2: number ;
+  rest: number ;     //////////////////////////////////////////////
+  days: number ;     ///////                                ///////
+  hours: number ;    ///////    variables for countdown     ///////
+  mins: number ;     ///////                                ///////
+  secs: number ;     //////////////////////////////////////////////
 
-  todayTemp_1: unknown ;
-  todayTemp_2: number ;
+  timeLoop: any;
+  eventDone = 0 ;   // check wether event is done or pending
 
-  rest: number ;
-  days: number ;
-  hours: number ;
-  mins: number ;
-  secs: number ;
-
-  eventDone = 0 ;
-
-  @Input( 'tempTitle' ) title: string ;
-  @Input( 'tempImg' ) img: string ;
-  @Input( 'tempClub' ) club: string ;
-  @Input( 'tempDate' ) tempDate: any ;
+  @Input( 'tempId' ) id: string ;           //////////////////////////////////////////////
+  @Input( 'tempTitle' ) title: string ;     ////////////                    //////////////
+  @Input( 'tempImg' ) img: string ;         ////////////    inputs from     //////////////
+  @Input( 'tempClub' ) club: string ;       ////////////   home component   //////////////
+  @Input( 'tempDate' ) tempDate: any ;      ////////////                    //////////////
+  @Input( 'tempStatus' )status: number ;    //////////////////////////////////////////////
 
   ngOnInit() {
 
-    this.eventDate = this.tempDate.toDate() ;
-    this.convertDatesToNumbers();
-
-    this.tempToday = setInterval( () => {
-      this.tempToday = Date.now();
-      this.calculateTime();
-    });
+   this.calculateTime();                    // calculate remaining time every secound
 
   }
 
-  convertDatesToNumbers() {
+  calculateTime() {  // this function calculating the time left & updating the databse, if event done
 
-    this.eventDateTemp_1 = this.eventDate as unknown ;
-    this.eventDateTemp_2 = this.eventDateTemp_1 as number ;
+    this.rest = ( this.tempDate.toDate().getTime() - Date.now() ) / 1000 ;   // remaining time as a number
 
-    this.todayTemp_1 = this.today as unknown ;
-    this.todayTemp_2 = this.todayTemp_1 as number ;
-
-  }
-
-  calculateTime() {
-
-    this.today = new Date( this.tempToday );
-
-    this.convertDatesToNumbers();
-
-    this.rest = ( this.eventDateTemp_2 - this.todayTemp_2 ) / 1000 ;
-
-    if ( this.rest > 0 ) {
+    if ( this.rest >= 0 ) {      // if time is left
       this.days = Math.floor(this.rest / 86400);
       this.hours = Math.floor(this.rest / 3600) % 24;
       this.mins = Math.floor(this.rest / 60) % 60;
-      this.secs = this.rest % 60 ;
-      this.secs = Math.round( this.secs ) ;
-    } else {
-      this.eventDone = 1 ;
-    }
-
+      this.secs = Math.round( this.rest % 60 ) ;
+    } else {                    // if time is end
+        this.eventDone = 1 ;
+        clearInterval( this.timeLoop );
+        this.firestore.doc('events/' + this.id ).update( { status: 1 } );
+      }
   }
 
 }
